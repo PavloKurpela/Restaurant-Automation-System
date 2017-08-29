@@ -19,9 +19,7 @@ public class DaoOrderImpl implements DaoOrder {
     public void addOrder(Order order) {
 
 
-//        for(OrderedDish orderedDish : order.getOrderedDishes()) {
-//            entityManager.merge(orderedDish);
-//        }
+        entityManager.persist(order.getCustomer());
         entityManager.merge(order);
     }
 }

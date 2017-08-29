@@ -1,5 +1,6 @@
 package com.mainacad.myproject.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,8 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
@@ -27,6 +30,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableWebMvc
 public class WebAppConfig extends WebMvcConfigurerAdapter {
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -92,7 +96,6 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
         properties.setProperty("hibernate.search.default.directory_provider", "filesystem");
-        properties.setProperty("hibernate.search.default.indexBase", "E:\\java\\JavaEE\\Example\\correspondence\\lucene");
         return properties;
     }
 

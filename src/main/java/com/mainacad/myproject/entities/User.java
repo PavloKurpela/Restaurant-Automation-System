@@ -28,8 +28,8 @@ public class User {
 //    )
 //    List<Order> myOrders = new ArrayList<>();
 
-    @OneToOne(mappedBy = "customer")
-    Order myOrder;
+    @Transient
+    private Order myOrder;
 
 
     public User() {
@@ -81,7 +81,6 @@ public class User {
 
     public void setMyOrder(Order myOrder) {
         this.myOrder = myOrder;
-        this.myOrder.setCustomer(this);
     }
 
 //    public List<Order> getMyOrders() {

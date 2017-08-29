@@ -47,23 +47,7 @@ public class MainController {
     @Autowired
     private OrderService orderService;
 
-    String filePath = "E:\\java\\JavaEE\\Example\\correspondence\\my_uploads";
 
-
-    @RequestMapping("/mypage")
-    public ResponseEntity<?> mypage() {
-        //model.addAttribute("employees", referenceService.listOfEmployees());
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("doc", "ddd");
-        return new ResponseEntity<String>(headers, HttpStatus.CREATED);
-    }
-
-//    @RequestMapping("/first_dish")
-//    public String first_dishes(Model model) {
-//        model.addAttribute("first_dishes", menuService.listDishes("FirstDish"));
-//        System.out.println(menuService.listDishes("FirstDish"));
-//        return "first_dish";
-//    }
 
     @RequestMapping("/tables")
     public String tables(Model model) {
@@ -88,6 +72,7 @@ public class MainController {
 
         if (user.getMyOrder() == null) {
             user.setMyOrder(new Order());
+            user.getMyOrder().setCustomer(user);
         }
 
         System.out.println(user.getMyOrder());
@@ -114,13 +99,6 @@ public class MainController {
             return Ajax.successResponse(result);
     }
 
-//    @RequestMapping(value = "/first_dish", method = RequestMethod.GET)
-//    public ResponseEntity<List<Dish>> getFirstDish() {
-//        List<Dish> response =  menuService.listDishes("FirstDish");
-//
-//        System.out.println(menuService.listDishes("FirstDish"));
-//        return new ResponseEntity<List<Dish>>(response, HttpStatus.OK);
-//    }
 
     @RequestMapping(value = "/second_dish", method = RequestMethod.GET)
     public @ResponseBody
@@ -136,12 +114,6 @@ public class MainController {
     public ResponseEntity getHotSnack() {
         List<Dish> result =  menuService.listDishes("гаряча закуска");
 
-        List<String> nameResult = new ArrayList<>();
-
-
-//            for (FirstDish r : result) {
-//                nameResult.add(r.getName());
-//            }
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("myheader", "Привіт!!!");
         System.out.println(menuService.listDishes("гаряча закуска"));
@@ -153,13 +125,6 @@ public class MainController {
     Map<String, Object> getColdSnack() {
         List<Dish> result =  menuService.listDishes("холодна закуска");
 
-        List<String> nameResult = new ArrayList<>();
-
-
-//            for (FirstDish r : result) {
-//                nameResult.add(r.getName());
-//            }
-
         System.out.println(menuService.listDishes("холодна закуска"));
         return Ajax.successResponse(result);
     }
@@ -169,13 +134,6 @@ public class MainController {
     Map<String, Object> getGarnish() {
         List<Dish> result =  menuService.listDishes("гарнір");
 
-        List<String> nameResult = new ArrayList<>();
-
-
-//            for (FirstDish r : result) {
-//                nameResult.add(r.getName());
-//            }
-
         System.out.println(menuService.listDishes("гарнір"));
         return Ajax.successResponse(result);
     }
@@ -184,13 +142,6 @@ public class MainController {
     public @ResponseBody
     Map<String, Object> getDessert() {
         List<Dish> result =  menuService.listDishes("десерт");
-
-        List<String> nameResult = new ArrayList<>();
-
-
-//            for (FirstDish r : result) {
-//                nameResult.add(r.getName());
-//            }
 
         System.out.println(menuService.listDishes("десерт"));
         return Ajax.successResponse(result);
@@ -213,6 +164,7 @@ public class MainController {
 
         if (user.getMyOrder() == null) {
             user.setMyOrder(new Order());
+            user.getMyOrder().setCustomer(user);
         }
 
         System.out.println(user.getMyOrder());
@@ -247,7 +199,6 @@ public class MainController {
 
     @RequestMapping("/orders")
     public String orders(Model model) {
-        //model.addAttribute("employees", referenceService.listOfEmployees());
         return null;
     }
 

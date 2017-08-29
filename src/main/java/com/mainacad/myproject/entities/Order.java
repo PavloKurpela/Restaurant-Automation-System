@@ -33,7 +33,7 @@ public class Order {
     private int countPerson;
 
     @OneToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "customer_id")
     private User customer;
 
 
