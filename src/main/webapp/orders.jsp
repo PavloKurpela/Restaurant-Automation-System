@@ -48,6 +48,15 @@
 
                                 <tbody id="table_dish">
 
+                                <c:forEach items="${orders}" var="orders">
+                                    <tr>
+                                        <th>${orders.id}</th>
+                                        <th></th>
+                                        <th>${orders.status}</th>
+                                        <th>${orders.orderSum}</th>
+                                    </tr>
+                                </c:forEach>
+
                                 </tbody>
                             </table>
                         </form>
@@ -127,57 +136,57 @@
     <div class="clear"></div>
 </div>
 
-<script>
+<%--<script>--%>
 
-    $( window ).load(function() {
-        $('#first_dish').click();
-    });
+    <%--$( window ).load(function() {--%>
+        <%--$('#first_dish').click();--%>
+    <%--});--%>
 
 
 
-        $.ajax({
-            type: "GET",
-            cache: false,
-            url: '/first_dish',
-            data: "",
-            success: function (response) {
-                var html = '';
-                //html = response.result;
-                $.each(response.data, function (i) {
-                    html =  html + "<tr>";
-                    html = html + "<th>" + response.data[i].name + "</th>";
-                    html = html + "<th>" + response.data[i].weigth + "</th>";
-                    html = html + "<th>" + response.data[i].cookingTime + "</th>";
-                    html = html + "<th>" + response.data[i].price + "</th>";
-                    html = html + "<th><input type=\"text\" id='" + response.data[i].id +  "'class=\"form-control\"></th>";
-                    html = html + "<th><button type=\"button\" id=\"dishAdd\" name=\"dishAdd\" value='" + response.data[i].id + "'class=\"btn btn-success btn-dish\">Додати</button></th>";
-                    html =  html + "</tr>";
-                });
-                $('#table_dish').html(html);
+        <%--$.ajax({--%>
+            <%--type: "GET",--%>
+            <%--cache: false,--%>
+            <%--url: '/first_dish',--%>
+            <%--data: "",--%>
+            <%--success: function (response) {--%>
+                <%--var html = '';--%>
+                <%--//html = response.result;--%>
+                <%--$.each(response.data, function (i) {--%>
+                    <%--html =  html + "<tr>";--%>
+                    <%--html = html + "<th>" + response.data[i].name + "</th>";--%>
+                    <%--html = html + "<th>" + response.data[i].weigth + "</th>";--%>
+                    <%--html = html + "<th>" + response.data[i].cookingTime + "</th>";--%>
+                    <%--html = html + "<th>" + response.data[i].price + "</th>";--%>
+                    <%--html = html + "<th><input type=\"text\" id='" + response.data[i].id +  "'class=\"form-control\"></th>";--%>
+                    <%--html = html + "<th><button type=\"button\" id=\"dishAdd\" name=\"dishAdd\" value='" + response.data[i].id + "'class=\"btn btn-success btn-dish\">Додати</button></th>";--%>
+                    <%--html =  html + "</tr>";--%>
+                <%--});--%>
+                <%--$('#table_dish').html(html);--%>
 
-                $('.btn-dish').click(function () {
-                    var str = $(this).val();
-                    if (!$("#" + str).val()) {
-                        alert("Введіть кількість порцій");
-                    } else {
-//                    alert($("#" + str).val());
-                        $.ajax({
-                            type: "POST",
-                            cache: false,
-                            url: '/menu/add-dish-to-order',
-                            data: {
-                                'dishId': $(this).val(),
-                                'countDish': $("#" + str).val()
-                            },
-                            success: function () {
-                                alert("Вашу дію успішно виконано!!!")
-                            }
-                        });
-                    }
-                });
-            }
-        });
-</script>
+                <%--$('.btn-dish').click(function () {--%>
+                    <%--var str = $(this).val();--%>
+                    <%--if (!$("#" + str).val()) {--%>
+                        <%--alert("Введіть кількість порцій");--%>
+                    <%--} else {--%>
+<%--//                    alert($("#" + str).val());--%>
+                        <%--$.ajax({--%>
+                            <%--type: "POST",--%>
+                            <%--cache: false,--%>
+                            <%--url: '/menu/add-dish-to-order',--%>
+                            <%--data: {--%>
+                                <%--'dishId': $(this).val(),--%>
+                                <%--'countDish': $("#" + str).val()--%>
+                            <%--},--%>
+                            <%--success: function () {--%>
+                                <%--alert("Вашу дію успішно виконано!!!")--%>
+                            <%--}--%>
+                        <%--});--%>
+                    <%--}--%>
+                <%--});--%>
+            <%--}--%>
+        <%--});--%>
+<%--</script>--%>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>

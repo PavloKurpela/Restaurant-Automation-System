@@ -31,9 +31,9 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    //User user = userService.getUser((long)1);
+    //User user = userService.getUser((long)201);
 
-    User user = new User();
+    User user = null;
 
     @Autowired
     private MenuService menuService;
@@ -68,8 +68,12 @@ public class MainController {
         System.out.println(tablesService.getTable(tableId));
 
 
-        System.out.println(user.getMyOrder());
+        //System.out.println(user.getMyOrder());
 
+
+        if (user == null) {
+            user = userService.getUser((long) 201);
+        }
         if (user.getMyOrder() == null) {
             user.setMyOrder(new Order());
             user.getMyOrder().setCustomer(user);
@@ -160,14 +164,18 @@ public class MainController {
             System.out.println(menuService.getDish(dishId));
 
 
-        System.out.println(user.getMyOrder());
+        //System.out.println(user.getMyOrder());
 
+        if (user == null) {
+            user = userService.getUser((long) 201);
+        }
         if (user.getMyOrder() == null) {
             user.setMyOrder(new Order());
             user.getMyOrder().setCustomer(user);
         }
 
         System.out.println(user.getMyOrder());
+
 
         menuService.addDish(dishId, countDish, user.getMyOrder());
         //orderService.addOrder(user.getMyOrder());
@@ -199,7 +207,18 @@ public class MainController {
 
     @RequestMapping("/orders")
     public String orders(Model model) {
-        return null;
+
+        if (user == null) {
+            user = userService.getUser((long) 201);
+        }
+        List<Order> res = orderService.orderList(user);
+
+        for (Order order : res) {
+            OrderService.changeSum(order);
+        }
+        System.out.println(res);
+        model.addAttribute("orders", res);
+        return "orders";
     }
 
 }

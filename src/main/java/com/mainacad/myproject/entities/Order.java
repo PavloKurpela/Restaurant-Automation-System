@@ -1,5 +1,7 @@
 package com.mainacad.myproject.entities;
 
+import com.mainacad.myproject.services.OrderService;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -16,13 +18,14 @@ public class Order {
     private long id;
 
     @OneToMany(
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     @JoinColumn(name = "order_id")
     private List<OrderedDish> orderedDishes = new ArrayList();
 
-    @ManyToOne
+    @ManyToOne//(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id")
     private com.mainacad.myproject.entities.Table tableOrdered;
 
@@ -32,7 +35,9 @@ public class Order {
 
     private int countPerson;
 
-    @OneToOne
+    private double orderSum;
+
+    @ManyToOne//(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private User customer;
 
@@ -91,6 +96,7 @@ public class Order {
 
     public void addOrderedDishes(OrderedDish orderedDish) {
         this.orderedDishes.add(orderedDish);
+        OrderService.changeSum(this);
     }
 
     public com.mainacad.myproject.entities.Table getTableOrdered() {
@@ -99,6 +105,14 @@ public class Order {
 
     public void setTableOrdered(com.mainacad.myproject.entities.Table tableOrdered) {
         this.tableOrdered = tableOrdered;
+    }
+
+    public double getOrderSum() {
+        return orderSum;
+    }
+
+    public void setOrderSum(double orderSum) {
+        this.orderSum = orderSum;
     }
 
     @Override

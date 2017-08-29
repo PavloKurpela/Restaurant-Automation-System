@@ -21,12 +21,12 @@ public class User {
 
     private String password;
 
-//    @OneToMany(
-//            mappedBy = "customer",
-//            cascade = CascadeType.ALL,
-//            orphanRemoval = true
-//    )
-//    List<Order> myOrders = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "customer",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    List<Order> myOrders = new ArrayList<>();
 
     @Transient
     private Order myOrder;
@@ -83,11 +83,11 @@ public class User {
         this.myOrder = myOrder;
     }
 
-//    public List<Order> getMyOrders() {
-//        return myOrders;
-//    }
-//
-//    public void setMyOrders(List<Order> myOrders) {
-//        this.myOrders = myOrders;
-//    }
+    public List<Order> getMyOrders() {
+        return myOrders;
+    }
+
+    public void addOrder(Order myOrder) {
+        this.myOrders.add(myOrder);
+    }
 }
