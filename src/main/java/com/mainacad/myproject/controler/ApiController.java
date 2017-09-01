@@ -90,4 +90,16 @@ public class ApiController {
 
         return Ajax.emptyResponse();
     }
+
+    @RequestMapping(value = "/set-count-person", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> setCoutPerson(@RequestParam("countPerson") int countPerson,
+                                Model model) {
+
+        //int c = Integer.getInteger(countPerson);
+        user.getMyOrder().setCountPerson(countPerson);
+
+        return Ajax.emptyResponse();
+
+    }
 }

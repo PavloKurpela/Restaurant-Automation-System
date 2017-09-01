@@ -29,7 +29,7 @@
             <div class="col-lg-9 col-lg-push-3">
 
                 <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation" id="new-order" class="active"><a href="#">Нові замовлення</a></li>
+                    <li role="presentation" id="new-order" class="active"><a href="#">Нове замовлення</a></li>
                     <li role="presentation" id="all-orders"><a href="#">Зробленні замовлення</a></li>
                 </ul>
                 <div id="mycontext">
@@ -134,25 +134,60 @@
         $(this).attr('class', 'active');
 
 //        document.location.replace("/orders");
-
         $('#mycontext').load("new-order.jsp");
 
-        $.ajax({
-            type: "GET",
-            cache: false,
-            url: '/api/new-order',
-            data: "",
-            success: function (response) {
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: '/api/new-order',
+                data: "",
+                success: function (response) {
 
-                if (response.result == "success") {
-                    $('#no-new-order').hide();
-                } else {
-                    $('#is-new-order').hide();
+
+                    if (response.result == "success") {
+                        $('#no-new-order').hide();
+                        //$('#start-date-order').html('' + response.data.dateTimeFrom);
+                        $('#start-date-order').html('22-09-2017 18:00');
+                        $('#end-date-order').html('22-09-2017 21:00');
+                        if (response.data.tableOrdered != null) {
+                            $('#ordered-table').html("Столик №" + response.data.tableOrdered.numberTable);
+                        } else {
+                            $('#ordered-table').html("Не обрано");
+                        }
+                        if(response.data.countPerson == 0) {
+                            $('#cout-person').html('не вказано');
+                        } else {
+                            $('#cout-person').html(response.data.countPerson);
+                        }
+                        $('#sum-order').html(response.data.orderSum)
+
+                        var html = '';
+                        //html = response.result;
+                        $.each(response.data.orderedDishes, function (i) {
+                            html =  html + "<tr>";
+                            html = html + "<th>" + response.data.orderedDishes[i].dish.name + "</th>";
+                            html = html + "<th>" + response.data.orderedDishes[i].dish.price + "</th>";
+                            html = html + "<th>" + response.data.orderedDishes[i].count + "</th>";
+                            var sum = response.data.orderedDishes[i].dish.price * response.data.orderedDishes[i].count;
+                            html = html + "<th>" + sum + "</th>";
+//                            html = html + "<th><input type=\"text\" id='" + response.data[i].id +  "'class=\"form-control\"></th>";
+                            html = html + "<th><button type=\"button\" id=\"changeCount\" name=\"changeCount\" value='" + response.data.orderedDishes[i].id + "'class=\"btn btn-success btn-dish\">Змінити</button></th>";
+                            html = html + "<th><button type=\"button\" id=\"deletDish\" name=\"deleteDish\" value='" + response.data.orderedDishes[i].id + "'class=\"btn btn-success btn-dish\">Видалити</button></th>";
+
+                            html =  html + "</tr>";
+                        });
+                        if(html == '') {
+                            $('#selected-dish').html("Ви ще не обрали жодної позиції...");
+                        } else {
+                            $('#selected-dish').html(html);
+                        }
+
+                    } else {
+                        $('#is-new-order').hide();
+                    }
+
                 }
-
-            }
-        });
-
+            });
     });
 
 

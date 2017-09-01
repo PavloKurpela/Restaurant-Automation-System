@@ -62,8 +62,7 @@
                         </table>
                         </form>
 
-                        <button type="button" id="orderAdd" name="orderAdd" class="btn btn-success btn-order">Оформити замовлення</button>
-
+                        <a href="/orders"><button type="button" class="btn btn-success">Перейти до замовлення</button></a>
                     </div>
                 </div>
 
@@ -143,30 +142,6 @@
         $('#first_dish').click();
     });
 
-    $('.btn-order').click(function () {
-
-            $.ajax({
-                type: "POST",
-                cache: false,
-                url: '/menu/add-order',
-                data: '',
-                success: function (response) {
-
-                    if (response.result == "error") {
-
-                        if(response.message == "tableNull") {
-                            alert("Столик не вибранно, оберіть будь-ласка столик...");
-                            document.location.replace("/tables");
-                        }
-                        if (response.message == "dishNull") {
-                            alert("Не вибрано жожної позиції...");
-                        }
-                    } else {
-                        alert("Замовлення оформленно!")
-                    }
-                }
-            });
-    });
 
 $('#first_dish').click(function () {
     $('#first_dish').attr('class', 'active');

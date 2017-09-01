@@ -31,7 +31,7 @@ public class Order {
     @JoinColumn(name = "table_id")
     private com.mainacad.myproject.entities.Table tableOrdered;
 
-    private LocalDateTime dateTimeFrom;
+    private LocalDateTime dateTimeFrom = LocalDateTime.of(2017, 9, 12, 18, 0);
     private LocalDateTime dateTimeBefore;
     private String status = "формується";
 
