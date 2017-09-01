@@ -11,6 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserService {
 
+    User user = null;
+
+    public User initUser() {
+        if (user == null) {
+           user = this.getUser(201);
+        }
+        return user ;
+    }
     @Autowired
     private UserDao userDao;
 

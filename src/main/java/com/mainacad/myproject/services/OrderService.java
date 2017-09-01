@@ -17,7 +17,10 @@ public class OrderService {
 
     @Transactional
     public void addOrder(Order order) {
+
+        order.setStatus("очікується");
         daoOrder.addOrder(order);
+
     }
 
     @Transactional
@@ -33,6 +36,9 @@ public class OrderService {
         order.setOrderSum(result.doubleValue());
     }
 
-
+    @Transactional
+    public Order getOrderById(long id) {
+        return daoOrder.getOrder(id);
+    }
 
 }

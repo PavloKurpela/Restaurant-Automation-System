@@ -38,4 +38,10 @@ public class DaoOrderImpl implements DaoOrder {
         query.setParameter("customer", customer);
         return (List<Order>)query.getResultList();
     }
+
+    @Override
+    public Order getOrder (long id) {
+        Order order =  entityManager.find(Order.class, id);
+        return order;
+    }
 }

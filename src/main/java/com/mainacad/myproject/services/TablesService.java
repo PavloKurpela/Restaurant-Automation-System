@@ -22,10 +22,12 @@ public class TablesService {
         return daoTables.tableList();
     }
 
+    @Transactional
     public Table getTable(int id) {
         return daoTables.getTable(id);
     }
 
+    @Transactional
     public void addTable(int tableId, Order order) {
 
         OrderedDish orderedDish = new OrderedDish();

@@ -1,6 +1,8 @@
 package com.mainacad.myproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mainacad.myproject.services.OrderService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Table;
@@ -25,19 +27,20 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<OrderedDish> orderedDishes = new ArrayList();
 
-    @ManyToOne//(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id")
     private com.mainacad.myproject.entities.Table tableOrdered;
 
     private LocalDateTime dateTimeFrom;
     private LocalDateTime dateTimeBefore;
-    private String status;
+    private String status = "формується";
 
     private int countPerson;
 
     private double orderSum;
 
-    @ManyToOne//(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private User customer;
 

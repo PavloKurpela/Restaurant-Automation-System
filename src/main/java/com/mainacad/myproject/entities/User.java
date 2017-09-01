@@ -1,5 +1,8 @@
 package com.mainacad.myproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -21,7 +24,9 @@ public class User {
 
     private String password;
 
+    @JsonIgnore
     @OneToMany(
+            fetch = FetchType.EAGER,
             mappedBy = "customer",
             cascade = CascadeType.ALL,
             orphanRemoval = true

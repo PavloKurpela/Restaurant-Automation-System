@@ -12,4 +12,6 @@ public interface DaoOrder {
 
     public List<Order> listOrder(User customer);
 
+    public Order getOrder (long id);
+
 }

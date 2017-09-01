@@ -1,5 +1,7 @@
 package com.mainacad.myproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -20,6 +22,7 @@ public class OrderedDish implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     private int count;
