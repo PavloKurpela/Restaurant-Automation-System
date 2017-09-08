@@ -1,9 +1,13 @@
 package com.mainacad.myproject.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -23,6 +27,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -31,6 +36,18 @@ import java.util.Properties;
 @EnableWebMvc
 public class WebAppConfig extends WebMvcConfigurerAdapter {
 
+
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        for (HttpMessageConverter<?> converter : converters) {
+            if (converter instanceof MappingJackson2HttpMessageConverter) {
+                MappingJackson2HttpMessageConverter jsonMessageConverter = (MappingJackson2HttpMessageConverter) converter;
+                ObjectMapper objectMapper = jsonMessageConverter.getObjectMapper();
+                objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+                break;
+            }
+        }
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -95,7 +112,8 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.search.default.directory_provider", "filesystem");
+        //properties.setProperty("hibernate.search.default.directory_provider", "filesystem");
+        properties.setProperty("spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS",  "false");
         return properties;
     }
 

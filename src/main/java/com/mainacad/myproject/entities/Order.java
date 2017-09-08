@@ -1,12 +1,14 @@
 package com.mainacad.myproject.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.mainacad.myproject.config.CustomLocalDateTimeSerializer;
+import com.mainacad.myproject.config.JsonDateDeserializer;
 import com.mainacad.myproject.services.OrderService;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.persistence.Table;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +33,14 @@ public class Order {
     @JoinColumn(name = "table_id")
     private com.mainacad.myproject.entities.Table tableOrdered;
 
-    private LocalDateTime dateTimeFrom = LocalDateTime.of(2017, 9, 12, 18, 0);
+
+    @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    private LocalDateTime dateTimeFrom;
+    @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateDeserializer.class)
     private LocalDateTime dateTimeBefore;
+
     private String status = "формується";
 
     private int countPerson;

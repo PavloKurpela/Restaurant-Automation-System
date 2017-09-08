@@ -147,8 +147,8 @@
                     if (response.result == "success") {
                         $('#no-new-order').hide();
                         //$('#start-date-order').html('' + response.data.dateTimeFrom);
-                        $('#start-date-order').html('22-09-2017 18:00');
-                        $('#end-date-order').html('22-09-2017 21:00');
+                        $('#start-date-order').html(response.data.dateTimeFrom);
+                        $('#end-date-order').html(response.data.dateTimeBefore);
                         if (response.data.tableOrdered != null) {
                             $('#ordered-table').html("Столик №" + response.data.tableOrdered.numberTable);
                         } else {
@@ -248,5 +248,6 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-select.min.js"></script>
 </body>
 </html>

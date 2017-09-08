@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -14,6 +16,9 @@ public class OrderService {
 
     @Autowired
     private DaoOrder daoOrder;
+
+    @Autowired
+    UserService userService;
 
     @Transactional
     public void addOrder(Order order) {
@@ -41,4 +46,13 @@ public class OrderService {
         return daoOrder.getOrder(id);
     }
 
+    public void setDateForOrder (String startDate, String endDate) {
+
+        User user = userService.initUser();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        user.getMyOrder().setDateTimeFrom(LocalDateTime.parse(startDate, formatter));
+        user.getMyOrder().setDateTimeBefore(LocalDateTime.parse(endDate, formatter));
+    }
 }

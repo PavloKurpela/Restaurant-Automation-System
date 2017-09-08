@@ -21,6 +21,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -100,6 +102,19 @@ public class ApiController {
         user.getMyOrder().setCountPerson(countPerson);
 
         return Ajax.emptyResponse();
+    }
 
+    @RequestMapping(value = "/set-order-date", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> setOrderDate(@RequestParam("startDate") String startDate,
+                                      @RequestParam("endDate") String endDate,
+                                      Model model) {
+
+        orderService.setDateForOrder(startDate, endDate);
+
+        System.out.println(user.getMyOrder().getDateTimeFrom());
+        System.out.println(user.getMyOrder().getDateTimeBefore());
+
+        return Ajax.emptyResponse();
     }
 }

@@ -141,3 +141,16 @@ footer a:hover {
 input[type=text] {
 	width: 60px;
 }
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	 vertical-align: middle;
+}
+table th {
+	 vertical-align: middle;
+}
+
+.bootstrap-select > .btn {
+	 width: auto;
+}
+
+

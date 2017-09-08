@@ -194,6 +194,10 @@ public class MainController {
     public @ResponseBody
     Map<String, Object> orderAdd(Model model) {
 
+        if (user == null) {
+            user = userService.initUser();
+        }
+
             if (user.getMyOrder() == null || user.getMyOrder().getOrderedDishes().size() == 0) {
                 return Ajax.errorResponse("dishNull");
             }
