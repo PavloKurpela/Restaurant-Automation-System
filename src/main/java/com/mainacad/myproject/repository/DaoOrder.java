@@ -14,4 +14,6 @@ public interface DaoOrder {
 
     public Order getOrder (long id);
 
+    public void deleteOrder (long toDelete);
+
 }

@@ -6,15 +6,15 @@
 <html lang="en">
 <head>
 
-    <title>Orders - Restaurant Automation System</title>
+    <title>Menu - Restaurant Automation System</title>
     <script
             src="https://code.jquery.com/jquery-2.1.3.js"
             integrity="sha256-goy7ystDD5xbXSf+kwL4eV6zOPJCEBD1FBiCElIm+U8="
             crossorigin="anonymous"></script>
     <%--<script--%>
-    <%--src="https://code.jquery.com/jquery-3.2.1.js"--%>
-    <%--integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="--%>
-    <%--crossorigin="anonymous"></script>--%>
+            <%--src="https://code.jquery.com/jquery-3.2.1.js"--%>
+            <%--integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="--%>
+            <%--crossorigin="anonymous"></script>--%>
 
     <%@ include file="header.jsp" %>
 
@@ -26,16 +26,13 @@
 
     <div class="container">
         <div class="row">
-            <div id="main-content" class="col-lg-9 col-lg-push-3">
+            <div class="col-lg-9 col-lg-push-3">
 
                 <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation" id="new-order" class="active"><a href="#">Нове замовлення</a></li>
-                    <li role="presentation" id="all-orders"><a href="#">Зробленні замовлення</a></li>
+                    <li role="presentation"><a href="/admin-dish">Страви</a></li>
+                    <li role="presentation"><a href="/admin-waiter">Офіціанти</a></li>
+                    <li role="presentation" class="active"><a href="/admin-order">Замовлення</a></li>
                 </ul>
-                <div id="mycontext">
-
-                </div>
-
 
             </div>
             <div class="col-lg-3 col-lg-pull-9">
@@ -52,14 +49,11 @@
                         <div class="sidebar-header">
                             <a id="table-br" href="/tables">Бронювання столиків</a>
                         </div>
-                        <div class="sidebar-header">
-                            <a href="/orders">Мої замовлення</a>
-                        </div>
+                            <div class="sidebar-header">
+                                <a href="/orders">Мої замовлення</a>
+                            </div>
                         <div class="sidebar-header">
                             <a href="#">Контакти</a>
-                        </div>
-                        <div class="sidebar-header">
-                            <a href="/admin-dish">Адміністрування</a>
                         </div>
                     </div>
 
@@ -115,8 +109,5 @@
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap-select.min.js"></script>
-<%--<script src="js/one-order-js.js"></script>--%>
-<script src="js/orders-js.js"></script>
 </body>
 </html>

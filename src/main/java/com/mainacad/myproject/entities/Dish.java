@@ -96,4 +96,29 @@ public class Dish implements Serializable {
                 ", type='" + type + '\'' +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dish)) return false;
+
+        Dish dish = (Dish) o;
+
+        if (id != dish.id) return false;
+        if (Double.compare(dish.weigth, weigth) != 0) return false;
+        if (name != null ? !name.equals(dish.name) : dish.name != null) return false;
+        return price != null ? price.equals(dish.price) : dish.price == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        temp = Double.doubleToLongBits(weigth);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }

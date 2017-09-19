@@ -10,4 +10,12 @@ public interface DaoMenu {
 
     public Dish getDish (long id);
 
+    public List getAllDish();
+
+    public void addDish(Dish dish);
+
+    public void removeDish(Dish dish);
+
+    public void changeDish(Dish dish);
+
 }

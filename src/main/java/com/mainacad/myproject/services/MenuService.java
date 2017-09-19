@@ -3,6 +3,7 @@ package com.mainacad.myproject.services;
 import com.mainacad.myproject.entities.Order;
 import com.mainacad.myproject.entities.Dish;
 import com.mainacad.myproject.entities.OrderedDish;
+import com.mainacad.myproject.entities.User;
 import com.mainacad.myproject.repository.DaoMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,15 @@ public class MenuService {
     public List<Dish> listDishes(String typeDish) {
         return daoMenu.listName(typeDish);
     }
+    @Transactional
+    public List<Dish> listAllDishes() {
+        return daoMenu.getAllDish();
+    }
+
+    @Transactional
+    public void addNewDish(Dish dish) {
+        daoMenu.addDish(dish);
+    }
 
     public Dish getDish(long id) {
         return daoMenu.getDish(id);
@@ -35,4 +45,14 @@ public class MenuService {
         order.addOrderedDishes(orderedDish);
     }
 
+    @Transactional
+    public void deleteDish(long dishId) {
+        Dish dish = this.getDish(dishId);
+        daoMenu.removeDish(dish);
+    }
+
+    @Transactional
+    public void changeDish(Dish dish) {
+        daoMenu.changeDish(dish);
+    }
 }

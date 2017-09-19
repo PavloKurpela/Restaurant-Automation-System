@@ -18,6 +18,9 @@ public class OrderService {
     private DaoOrder daoOrder;
 
     @Autowired
+    private MenuService menuService;
+
+    @Autowired
     UserService userService;
 
     @Transactional
@@ -54,5 +57,46 @@ public class OrderService {
 
         user.getMyOrder().setDateTimeFrom(LocalDateTime.parse(startDate, formatter));
         user.getMyOrder().setDateTimeBefore(LocalDateTime.parse(endDate, formatter));
+    }
+
+    @Transactional
+    public void deleteOrderedDish(long dishId) {
+
+        User user = userService.initUser();
+        Dish dish = menuService.getDish(dishId);
+
+        OrderedDish ordDish = null;
+
+        for(OrderedDish orderedDish : user.getMyOrder().getOrderedDishes()) {
+
+            if (dish.equals(orderedDish.getDish())) {
+                    System.out.println("Deleting ordered dish: " + orderedDish);
+                    ordDish = orderedDish;
+                    break;
+            }
+        }
+        user.getMyOrder().getOrderedDishes().remove(ordDish);
+        OrderService.changeSum(user.getMyOrder());
+    }
+
+    @Transactional
+    public void changeCountOrderedDish(long dishId, int newCount) {
+
+        User user = userService.initUser();
+        Dish dish = menuService.getDish(dishId);
+
+        for(OrderedDish orderedDish : user.getMyOrder().getOrderedDishes()) {
+
+            if (dish.equals(orderedDish.getDish())) {
+                System.out.println("Deleting ordered dish: " + orderedDish);
+                orderedDish.setCount(newCount);
+                break;
+            }
+        }
+    }
+
+    @Transactional
+    public void deleteOrder(long toDelete) {
+        daoOrder.deleteOrder(toDelete);
     }
 }

@@ -29,7 +29,8 @@ public class Order {
     @JoinColumn(name = "order_id")
     private List<OrderedDish> orderedDishes = new ArrayList();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,
+                cascade = CascadeType.ALL)
     @JoinColumn(name = "table_id")
     private com.mainacad.myproject.entities.Table tableOrdered;
 
@@ -138,5 +139,30 @@ public class Order {
                 ", countPerson=" + countPerson +
                 ", customer=" + customer +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+
+        Order order = (Order) o;
+
+        if (id != order.id) return false;
+        if (countPerson != order.countPerson) return false;
+        if (Double.compare(order.orderSum, orderSum) != 0) return false;
+        return customer != null ? customer.equals(order.customer) : order.customer == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
+        result = 31 * result + countPerson;
+        temp = Double.doubleToLongBits(orderSum);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (customer != null ? customer.hashCode() : 0);
+        return result;
     }
 }

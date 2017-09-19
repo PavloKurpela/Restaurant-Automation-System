@@ -153,4 +153,6 @@ table th {
 	 width: auto;
 }
 
-
+.input-dish-field {
+	width: 300px;
+}

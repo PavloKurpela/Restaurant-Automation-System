@@ -80,6 +80,9 @@
                         <div class="sidebar-header">
                             <a href="#">Контакти</a>
                         </div>
+                        <div class="sidebar-header">
+                            <a href="/admin-dish">Адміністрування</a>
+                        </div>
                     </div>
 
                 </div>

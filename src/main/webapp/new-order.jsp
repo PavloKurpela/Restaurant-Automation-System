@@ -18,7 +18,6 @@
                     <th><h3>Початок замовлення(Дата та час)</h3></th>
                     <th><h3 id="start-date-order"></h3></th>
                     <th rowspan="2"><button type="button" class="btn btn-success btn-date" style="width: 120px" data-toggle="modal" data-target=".modal-select-date">Обрати</button>
-
                 </tr>
                 <tr>
                     <th><h3>Закінчення замовлення(орієнтовно)</h3></th>
@@ -270,11 +269,5 @@
             }
             });
         }
-
-//        alert($('#date-start').val());
-//        alert($('#hour-start').val());
-//        alert($('#min-start').val());
-
-//
     });
 </script>

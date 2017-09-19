@@ -44,4 +44,16 @@ public class DaoOrderImpl implements DaoOrder {
         Order order =  entityManager.find(Order.class, id);
         return order;
     }
+
+    @Override
+    public void deleteOrder (long toDelete)
+    {
+        Order order = entityManager.find(Order.class, toDelete);
+
+        System.out.println(order);
+
+        if (order != null) {
+            entityManager.remove(order);
+        }
+    }
 }

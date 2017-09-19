@@ -19,12 +19,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Controller
@@ -279,15 +285,92 @@ public class MainController {
         return "orders";
     }
 
-
-    @RequestMapping(value = "/order/{idOr}", method = RequestMethod.GET)
-    public ResponseEntity<?> getPatientById(@PathVariable("idOr") long id){
-        Order order = orderService.getOrderById(id);
-        if(order == null) {
-            System.out.println("Нема!!!");
-            Ajax.errorResponse("Нема");
-        }
-        return new ResponseEntity<Object>(order, HttpStatus.OK);
+    @RequestMapping("/one-order")
+    public String oneOrder(Model model) {
+        return "one-order";
     }
+
+    @RequestMapping(value = "/admin-dish", method = RequestMethod.GET)
+    public ModelAndView adminDish(Model model) {
+
+        Map<String, Dish> resultModel = new HashMap<>();
+
+        resultModel.put("dish", new Dish());
+
+        return new ModelAndView("admin-dish", resultModel);
+    }
+
+
+
+
+//    @RequestMapping("/one-dish")
+//    public String getPageOneDish(Model model) {
+//        return "one-dish";
+//    }
+
+
+    @RequestMapping(value = "/one-dish/{id}", method = RequestMethod.GET)
+    public ModelAndView oneDish(@PathVariable("id") long id, Model model) {
+
+
+        Dish dish1 = menuService.getDish(id);
+
+        Map<String, Dish> resultModel = new HashMap<>();
+
+        resultModel.put("dish", dish1);
+
+
+        return new ModelAndView("one-dish", resultModel);
+
+        //return "one-dish";
+    }
+
+    @RequestMapping(value = "/one-dish/{id}", method = RequestMethod.DELETE)
+    public @ResponseBody
+    Map<String, Object> deleteDishById(@PathVariable("id") long id){
+
+        Dish dish = menuService.getDish(id);
+        if (dish == null) {
+            return Ajax.errorResponse("Dish with id = " + id + "does not exist");
+        }
+        menuService.deleteDish(id);
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "/addDish", method = RequestMethod.POST)
+    public String submit(@Valid @ModelAttribute("dish")Dish dish,
+                         BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            return "error";
+        }
+        System.out.println(dish);
+        menuService.addNewDish(dish);
+
+        return "redirect:/admin-dish";
+    }
+
+    @RequestMapping(value = "/changeDish", method = RequestMethod.POST)
+    public String changeDish(@Valid @ModelAttribute("dish")Dish dish,
+                         BindingResult result, ModelMap model) {
+        if (result.hasErrors()) {
+            return "error";
+        }
+        System.out.println(dish);
+
+        menuService.changeDish(dish);
+
+        return "redirect:/admin-dish";
+    }
+
+    @RequestMapping("/admin-waiter")
+    public String adminWaiter(Model model) {
+        return "admin-waiter";
+    }
+    @RequestMapping("/admin-order")
+    public String adminOrder(Model model) {
+        return "admin-order";
+    }
+
+
 
 }

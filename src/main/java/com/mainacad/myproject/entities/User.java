@@ -28,7 +28,7 @@ public class User {
     @OneToMany(
             fetch = FetchType.EAGER,
             mappedBy = "customer",
-            cascade = CascadeType.ALL,
+            //cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     List<Order> myOrders = new ArrayList<>();
