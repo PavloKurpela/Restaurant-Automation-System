@@ -52,6 +52,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/");
+        registry.addResourceHandler("/admin/**").addResourceLocations("/");
     }
 
     @Bean

@@ -81,7 +81,7 @@
                             <a href="#">Контакти</a>
                         </div>
                         <div class="sidebar-header">
-                            <a href="/admin-dish">Адміністрування</a>
+                            <a href="/admin/dish">Адміністрування</a>
                         </div>
                     </div>
 
@@ -135,38 +135,19 @@
 
 <script>
 
-//    $('.btn-order').click(function () {
-//
-//        $.ajax({
-//            type: "POST",
-//            cache: false,
-//            url: '/menu/add-order',
-//            data: '',
-//            success: function (response) {
-//
-//                if (response.result == "error") {
-//                    alert(response.message);
-//                } else {
-//                    alert("Замовлення оформленно!")
-//                }
-//            }
-//        });
-//    });
-
-
-                $('.btn-table').click(function () {
-                        $.ajax({
-                            type: "POST",
-                            cache: false,
-                            url: '/menu/add-table',
-                            data: {
-                                'tableId': $(this).val()
-                            },
-                            success: function () {
-                                alert("Столик заброньовано!");
-                            }
-                        });
-                });
+    $('.btn-table').click(function () {
+        $.ajax({
+            type: "POST",
+            cache: false,
+            url: 'tables/add-table',
+            data: {
+                'tableId': $(this).val()
+            },
+            success: function () {
+                alert("Столик заброньовано!");
+            }
+        });
+    });
 
 </script>
 

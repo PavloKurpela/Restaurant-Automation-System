@@ -88,7 +88,7 @@
                             <a href="#">Контакти</a>
                         </div>
                         <div class="sidebar-header">
-                            <a href="/admin-dish">Адміністрування</a>
+                            <a href="/admin/dish">Адміністрування</a>
                         </div>
                     </div>
 
@@ -157,7 +157,7 @@ $('#first_dish').click(function () {
     $.ajax({
         type: "GET",
         cache: false,
-        url: '/first_dish',
+        url: '/menu/first_dish',
         data: "",
         success: function (response) {
             var html = '';
@@ -209,7 +209,7 @@ $('#first_dish').click(function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: '/second_dish',
+            url: '/menu/second_dish',
             data: "",
             success: function (response) {
                 var html = '';
@@ -263,7 +263,7 @@ $('#first_dish').click(function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: '/hot_snack',
+            url: '/menu/hot_snack',
             data: "",
             success: function (response) {
                 var html = '';
@@ -318,7 +318,7 @@ $('#first_dish').click(function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: '/cold_snack',
+            url: '/menu/cold_snack',
             data: "",
             success: function (response) {
                 var html = '';
@@ -372,7 +372,7 @@ $('#first_dish').click(function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: '/garnish',
+            url: '/menu/garnish',
             data: "",
             success: function (response) {
                 var html = '';
@@ -426,7 +426,7 @@ $('#first_dish').click(function () {
         $.ajax({
             type: "GET",
             cache: false,
-            url: '/dessert',
+            url: '/menu/dessert',
             data: "",
             success: function (response) {
                 var html = '';

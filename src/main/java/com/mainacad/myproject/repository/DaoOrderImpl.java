@@ -56,4 +56,23 @@ public class DaoOrderImpl implements DaoOrder {
             entityManager.remove(order);
         }
     }
+
+    @Override
+    public List<Order> allExpectedOrders() {
+
+        String stringQuery = "SELECT o FROM Order o WHERE o.status = :status";
+
+        Query query = entityManager.createQuery(stringQuery, Order.class);
+        query.setParameter("status", "очікується");
+        return (List<Order>)query.getResultList();
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        System.out.println("Записую");
+        entityManager.merge(order);
+        System.out.println("Записано");
+
+
+    }
 }

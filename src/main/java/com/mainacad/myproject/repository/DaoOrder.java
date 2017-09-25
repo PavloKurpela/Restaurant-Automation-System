@@ -16,4 +16,7 @@ public interface DaoOrder {
 
     public void deleteOrder (long toDelete);
 
+    public List<Order> allExpectedOrders();
+
+    public void updateOrder(Order order);
 }

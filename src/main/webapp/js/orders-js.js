@@ -1,17 +1,3 @@
-$('.add-new-order').click(function () {
-
-    $.ajax({
-        type: "POST",
-        cache: false,
-        url: '/api/add-new-order',
-        data: '',
-        success: function () {
-            alert("Вашу дію успішно виконано!!!");
-            document.location.replace("/orders");
-        }
-    });
-
-});
 
 $( window ).load(function() {
     $('#new-order').click();
@@ -27,7 +13,7 @@ $('#new-order').click(function () {
     $.ajax({
         type: "GET",
         cache: false,
-        url: '/api/new-order',
+        url: '/orders/new-order',
         data: "",
         success: function (response) {
 
@@ -77,7 +63,7 @@ $('#new-order').click(function () {
             $('.btn-delete').click(function(){
                 //alert($(this).val());
 
-                var url = '/api/new-order/' + $(this).val();
+                var url = '/orders/new-order/' + $(this).val();
 
                 $.ajax({
                     type: "DELETE",
@@ -90,25 +76,6 @@ $('#new-order').click(function () {
                     }
                 });
             });
-
-//                    $('.btn-change').click(function(){
-//                        alert($(this).val());
-//
-//                        var url = '/api/new-order/' + $(this).val();
-//
-//                        var count = 4;
-//
-//                        $.ajax({
-//                            type: "PUT",
-//                            cache: false,
-//                            url: url,
-//                            data: {'newCount' : count},
-//                            success: function () {
-//                                alert("Вашу дію успішно виконано!!!");
-//                                document.location.replace("/orders");
-//                            }
-//                        });
-//                    });
 
         }
 
@@ -128,7 +95,7 @@ $('#all-orders').click(function () {
     $.ajax({
         type: "GET",
         cache: false,
-        url: '/api/orders',
+        url: '/orders/all',
         data: "",
         success: function (response) {
             var html = '';
@@ -136,9 +103,15 @@ $('#all-orders').click(function () {
             $.each(response.data, function (i) {
                 html =  html + "<tr>";
                 html = html + "<th id='id-ord'>" + response.data[i].id + "</th>";
-                html = html + "<th></th>";
+                html = html + "<th>" + response.data[i].timeShipmentOrder + "</th>";
+                html = html + "<th>" + response.data[i].dateTimeFrom + "</th>";
                 html = html + "<th>" + response.data[i].status + "</th>";
                 html = html + "<th>" + response.data[i].orderSum + "</th>";
+                if(response.data[i].paymentStatus == false) {
+                    html = html + "<th>Неоплаченно</th>";
+                } else {
+                    html = html + "<th>Оплаченно</th>";
+                }
                 html = html + "<th></th>";
 //                    html = html + "<th><input type=\"text\" id='" + response.data[i].id +  "'class=\"form-control\"></th>";
 //                    html = html + "<th><button type=\"button\" id=\"dishAdd\" name=\"dishAdd\" value='" + response.data[i].id + "'class=\"btn btn-success btn-dish\">Додати</button></th>";
@@ -146,15 +119,11 @@ $('#all-orders').click(function () {
             });
             $('#table-my-orders').html(html);
 
-//                $('#table-my-orders tr').click(function () {
-//                    alert("ddd");
-//                });
-
                 $(document).on('click', '#table-my-orders tr', function () {
-                    //var x = $(this).text(); // получаем значение со строки "td"
+
                     var x = $(this).find('th#id-ord').text();
 
-                    url = "/api/order/" + x;
+                    url = "/orders/" + x;
 
                     $('#main-content').load("one-order.jsp");
 
@@ -182,7 +151,14 @@ $('#all-orders').click(function () {
                                     $('#cout-person').html(response.data.countPerson);
                                 }
                                 $('#sum-order').html(response.data.orderSum)
-
+                                if (response.data.status != 'очікується') {
+                                    $('.btn-delete-order').hide();
+                                }
+                                if (response.data.status == 'очікується') {
+                                   $('#waiter').html("не призначено")
+                                } else {
+                                    $('#waiter').html(response.data.waiter.lastName + ' ' + response.data.waiter.firstName);
+                                }
                                 var html = '';
                                 //html = response.result;
                                 $.each(response.data.orderedDishes, function (i) {
@@ -211,26 +187,6 @@ $('#all-orders').click(function () {
 
 
                 });
-//                  $('.btn-dish').click(function () {
-//                    var str = $(this).val();
-//                    if (!$("#" + str).val()) {
-//                        alert("Введіть кількість порцій");
-//                    } else {
-////                    alert($("#" + str).val());
-//                        $.ajax({
-//                            type: "POST",
-//                            cache: false,
-//                            url: '/menu/add-dish-to-order',
-//                            data: {
-//                                'dishId': $(this).val(),
-//                                'countDish': $("#" + str).val()
-//                            },
-//                            success: function () {
-//                                alert("Вашу дію успішно виконано!!!")
-//                            }
-//                        });
-//                    }
-//                });
         }
     });
 });

@@ -188,11 +188,10 @@
 
 
     $('.add-new-order').click(function () {
-
         $.ajax({
             type: "POST",
             cache: false,
-            url: '/api/add-new-order',
+            url: '/orders/create-new-order',
             data: '',
             success: function () {
                 alert("Нове замовлення створенно!");
@@ -210,7 +209,7 @@
             $.ajax({
                 type: "POST",
                 cache: false,
-                url: '/api/set-count-person',
+                url: '/orders/set-count-person',
                 data: {
                     'countPerson': count
                 },
@@ -226,7 +225,7 @@
         $.ajax({
             type: "POST",
             cache: false,
-            url: '/menu/add-order',
+            url: '/orders/add-order',
             data: '',
             success: function (response) {
 
@@ -259,7 +258,7 @@
             $.ajax({
             type: "POST",
             cache: false,
-            url: '/api/set-order-date',
+            url: '/orders/set-order-date',
             data: {
                 'startDate': dateStart,
                 'endDate': dateEnd

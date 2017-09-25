@@ -1,55 +1,41 @@
 package com.mainacad.myproject.controler;
 
-import com.mainacad.myproject.entities.Dish;
+
 import com.mainacad.myproject.entities.Order;
 import com.mainacad.myproject.entities.User;
-import com.mainacad.myproject.services.MenuService;
 import com.mainacad.myproject.services.OrderService;
-import com.mainacad.myproject.services.TablesService;
 import com.mainacad.myproject.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api")
-
-public class ApiController {
-
-    @Autowired
-    private UserService userService;
-
-    //User user = userService.getUser((long)201);
-
-    User user = null;
-
-    @Autowired
-    private MenuService menuService;
-
-    @Autowired
-    private TablesService tablesService;
+@RequestMapping("/orders")
+public class OrdersController {
 
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public ResponseEntity<?> orders2(Model model, UriComponentsBuilder ucBuilder) {
+    @Autowired
+    private UserService userService;
+
+    User user = null;
+
+    @RequestMapping("")
+    public String orders(Model model) {
+        return "orders";
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ResponseEntity<?> allOrders(Model model, UriComponentsBuilder ucBuilder) {
 
         if (user == null) {
             user = userService.initUser();
@@ -67,7 +53,7 @@ public class ApiController {
 
     @RequestMapping(value = "/new-order", method = RequestMethod.GET)
     public @ResponseBody
-        Map<String, Object> getOrder() {
+    Map<String, Object> getOrder() {
 
         if (user == null) {
             user = userService.initUser();
@@ -79,7 +65,7 @@ public class ApiController {
         return Ajax.successResponse(user.getMyOrder());
     }
 
-    @RequestMapping(value = "/add-new-order", method = RequestMethod.POST)
+    @RequestMapping(value = "/create-new-order", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> orderNewAdd(Model model) {
 
@@ -87,9 +73,30 @@ public class ApiController {
             user = userService.initUser();
 
         }
-
         user.setMyOrder(new Order());
-        user.getMyOrder().setCustomer(user);
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "/add-order", method = RequestMethod.POST)
+    public @ResponseBody
+    Map<String, Object> orderAdd(Model model) {
+
+        if (user == null) {
+            user = userService.initUser();
+        }
+
+        if (user.getMyOrder() == null || user.getMyOrder().getOrderedDishes().size() == 0) {
+            return Ajax.errorResponse("dishNull");
+        }
+
+        if(user.getMyOrder().getTableOrdered() == null) {
+            return Ajax.errorResponse("tableNull");
+        }
+
+
+        orderService.addOrder(user.getMyOrder());
+
+        user.setMyOrder(null);
 
         return Ajax.emptyResponse();
     }
@@ -97,7 +104,7 @@ public class ApiController {
     @RequestMapping(value = "/set-count-person", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> setCoutPerson(@RequestParam("countPerson") int countPerson,
-                                Model model) {
+                                      Model model) {
 
         //int c = Integer.getInteger(countPerson);
         user.getMyOrder().setCountPerson(countPerson);
@@ -108,8 +115,8 @@ public class ApiController {
     @RequestMapping(value = "/set-order-date", method = RequestMethod.POST)
     public @ResponseBody
     Map<String, Object> setOrderDate(@RequestParam("startDate") String startDate,
-                                      @RequestParam("endDate") String endDate,
-                                      Model model) {
+                                     @RequestParam("endDate") String endDate,
+                                     Model model) {
 
         orderService.setDateForOrder(startDate, endDate);
 
@@ -136,7 +143,7 @@ public class ApiController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "/order/{idOr}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{idOr}", method = RequestMethod.GET)
     public @ResponseBody
     Map<String, Object> getPatientById(@PathVariable("idOr") long id){
         Order order = orderService.getOrderById(id);
@@ -147,7 +154,7 @@ public class ApiController {
         return Ajax.successResponse(order);
     }
 
-    @RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public @ResponseBody
     Map<String, Object> deleteOrderById(@PathVariable("id") long id){
         Order order = orderService.getOrderById(id);
@@ -158,11 +165,5 @@ public class ApiController {
         return Ajax.emptyResponse();
     }
 
-    @RequestMapping(value = "/all_dish", method = RequestMethod.GET)
-    public @ResponseBody
-    Map<String, Object> getAllDish() {
-        List<Dish> result =  menuService.listAllDishes();
-        return Ajax.successResponse(result);
-    }
-
 }
+

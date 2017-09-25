@@ -30,11 +30,14 @@ public class Order {
     private List<OrderedDish> orderedDishes = new ArrayList();
 
     @ManyToOne(fetch = FetchType.EAGER,
-                cascade = CascadeType.ALL)
+                cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "table_id")
     private com.mainacad.myproject.entities.Table tableOrdered;
 
 
+    @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateDeserializer.class)
+    private LocalDateTime timeShipmentOrder;
     @JsonSerialize(using = CustomLocalDateTimeSerializer.class)
     @JsonDeserialize(using = JsonDateDeserializer.class)
     private LocalDateTime dateTimeFrom;
@@ -42,17 +45,22 @@ public class Order {
     @JsonDeserialize(using = JsonDateDeserializer.class)
     private LocalDateTime dateTimeBefore;
 
+    private boolean paymentStatus;
+
     private String status = "формується";
 
     private int countPerson;
 
     private double orderSum;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private User customer;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "waiter_id")
+    private Waiter waiter;
 
     public int getCountPerson() {
         return countPerson;
@@ -127,6 +135,30 @@ public class Order {
         this.orderSum = orderSum;
     }
 
+    public LocalDateTime getTimeShipmentOrder() {
+        return timeShipmentOrder;
+    }
+
+    public boolean isPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(boolean paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public void setTimeShipmentOrder(LocalDateTime timeShipmentOrder) {
+        this.timeShipmentOrder = timeShipmentOrder;
+    }
+
+    public Waiter getWaiter() {
+        return waiter;
+    }
+
+    public void setWaiter(Waiter waiter) {
+        this.waiter = waiter;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -138,6 +170,7 @@ public class Order {
                 ", status='" + status + '\'' +
                 ", countPerson=" + countPerson +
                 ", customer=" + customer +
+                ", waiter=" + waiter +
                 '}';
     }
 

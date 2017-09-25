@@ -30,9 +30,9 @@
             <div id="dish-content" class="col-lg-9 col-lg-push-3">
 
                 <ul class="nav nav-tabs nav-justified">
-                    <li role="presentation" class="active"><a href="/admin-dish">Страви</a></li>
-                    <li role="presentation"><a href="/admin-waiter">Офіціанти</a></li>
-                    <li role="presentation"><a href="/admin-order">Замовлення</a></li>
+                    <li role="presentation" class="active"><a href="/admin/dish">Страви</a></li>
+                    <li role="presentation"><a href="/admin/waiter">Офіціанти</a></li>
+                    <li role="presentation"><a href="/admin/order">Замовлення</a></li>
                 </ul>
 
                 <div class="container-fluid">
@@ -189,7 +189,7 @@
         $.ajax({
             type: "GET",
             cache: false,
-            url: '/api/all_dish',
+            url: '/admin/all_dish',
             data: "",
             success: function (response) {
                 var html = '';
@@ -208,7 +208,7 @@
 
                 $('.btn-delete-dish').click(function () {
 
-                    var url = '/one-dish/' + $(this).val();
+                    var url = '/admin/one-dish/' + $(this).val();
 
                     $.ajax({
                         type: "DELETE",
@@ -217,37 +217,17 @@
                         data: '',
                         success: function () {
                             alert("Страву видаленно!");
-                            document.location.replace("/admin-dish");
+                            document.location.replace("/admin/dish");
                         }
                     });
                 });
 
                 $('.btn-change-dish').click(function () {
 
-                    $('#dish-content').load("/one-dish/" + $(this).val());
+                    $('#dish-content').load("/admin/one-dish/" + $(this).val());
 
                 });
 
-//                $('.btn-dish').click(function () {
-//                    var str = $(this).val();
-//                    if (!$("#" + str).val()) {
-//                        alert("Введіть кількість порцій");
-//                    } else {
-////                    alert($("#" + str).val());
-//                        $.ajax({
-//                            type: "POST",
-//                            cache: false,
-//                            url: '/menu/add-dish-to-order',
-//                            data: {
-//                                'dishId': $(this).val(),
-//                                'countDish': $("#" + str).val()
-//                            },
-//                            success: function () {
-//                                alert("Вашу дію успішно виконано!!!")
-//                            }
-//                        });
-//                    }
-//                });
             }
         });
     });

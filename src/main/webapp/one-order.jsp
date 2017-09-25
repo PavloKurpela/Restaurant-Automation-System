@@ -25,6 +25,10 @@
                             <th><h3>Загальна сума</h3></th>
                             <th><h3 id="sum-order"></h3></th>
                         </tr>
+                        <tr>
+                            <th><h3>Офіціант</h3></th>
+                            <th><h3 id="waiter"></h3></th>
+                        </tr>
                         </tbody>
                     </table>
                     <h1>Cтрави</h1>
@@ -43,7 +47,7 @@
 
                         </tbody>
                     </table>
-                    <button type="button" class="btn btn-success btn-delete-order">Відмінити замовлення</button>
+                    <button type="button" id="delete-order" class="btn btn-success btn-delete-order">Відмінити замовлення</button>
                     <button type="button" class="btn btn-success btn-back-to-order">Назад</button>
 
                     <%--Модальне вікно для вибору часу замовлення--%>
