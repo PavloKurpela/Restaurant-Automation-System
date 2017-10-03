@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAmount;
@@ -38,7 +40,7 @@ public class OrderService {
 
         order.setTimeShipmentOrder(LocalDateTime.now());
         order.setStatus("очікується");
-        order.setCustomer(userService.initUser());
+        order.setCustomer(userService.getActiveUser());
         daoOrder.addOrder(order);
     }
 
@@ -62,7 +64,7 @@ public class OrderService {
 
     public void setDateForOrder (String startDate, String endDate) {
 
-        User user = userService.initUser();
+        User user = userService.getActiveUser();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -73,7 +75,7 @@ public class OrderService {
     @Transactional
     public void deleteOrderedDish(long dishId) {
 
-        User user = userService.initUser();
+        User user = userService.getActiveUser();
         Dish dish = menuService.getDish(dishId);
 
         OrderedDish ordDish = null;
@@ -93,7 +95,7 @@ public class OrderService {
     @Transactional
     public void changeCountOrderedDish(long dishId, int newCount) {
 
-        User user = userService.initUser();
+        User user = userService.getActiveUser();
         Dish dish = menuService.getDish(dishId);
 
         for(OrderedDish orderedDish : user.getMyOrder().getOrderedDishes()) {
@@ -164,5 +166,23 @@ public class OrderService {
             order.setStatus("виконується");
             daoOrder.updateOrder(order);
         System.out.println("Зроблено");
+    }
+
+    public List<Order> getActiveOrderForOneWaiter(Waiter waiter){
+        List<Order> activeOrders = daoOrder.activeOrdersForOneWaiter(waiter);
+        return activeOrders;
+    }
+
+    public List<Order> getOrderForOneWaiterforOneDay(Waiter waiter, LocalDate date){
+
+        LocalDateTime dateTimeOrders = LocalDateTime.of(date, LocalTime.of(0,0));
+
+        List<Order> activeOrders = daoOrder.ordersForOneWaiterforOneDay(waiter, dateTimeOrders);
+        return activeOrders;
+    }
+
+    @Transactional
+    public void updateOrder(Order order) {
+        daoOrder.updateOrder(order);
     }
 }

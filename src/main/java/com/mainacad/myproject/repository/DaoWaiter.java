@@ -21,4 +21,8 @@ public interface DaoWaiter {
 
     public Waiter getWaiter (long id);
 
+    public void updateWaiter(Waiter waiter);
+
+    public Waiter getWaiterByLoginName(String login);
+
 }

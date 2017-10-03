@@ -1,6 +1,8 @@
 package com.mainacad.myproject.services;
 
 import com.mainacad.myproject.entities.Dish;
+import com.mainacad.myproject.entities.Order;
+import com.mainacad.myproject.entities.User;
 import com.mainacad.myproject.entities.Waiter;
 import com.mainacad.myproject.repository.DaoWaiter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +49,17 @@ public class WaiterService {
         Waiter waiter = this.getWaiterById(id);
         daoWaiter.removeWaiter(waiter);
     }
+
+    @Transactional
+    public void updateWaiter(Waiter waiter) {
+        daoWaiter.updateWaiter(waiter);
+    }
+
+    @Transactional
+    public Waiter getWaiter(String login) {
+        Waiter waiter = daoWaiter.getWaiterByLoginName(login);
+        System.out.println(waiter);
+        return waiter;
+    }
+
 }

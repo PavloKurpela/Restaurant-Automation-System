@@ -38,8 +38,14 @@
 
                     <ul class="nav nav-pills">
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a><span class="glyphicon glyphicon-user"></span> Павло</a></li>
+                            <sec:authorize access="isAuthenticated()">
+                            <li><a><span class="glyphicon glyphicon-user"></span> <sec:authentication property="principal.username"/></a></li>
                             <li><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Вийти</a></li>
+                            </sec:authorize>
+                            <sec:authorize access="!isAuthenticated()">
+                                <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Увійти</a></li>
+                            </sec:authorize>
+
                         </ul>
                     </ul>
 

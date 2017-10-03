@@ -156,3 +156,10 @@ table th {
 .input-dish-field {
 	width: 300px;
 }
+
+.input-lg {
+	width: 100% !important;
+}
+.access-info {
+	color: red;
+}

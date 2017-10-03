@@ -1,6 +1,7 @@
 package com.mainacad.myproject.config;
 
 import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -14,6 +15,11 @@ public class Initializer implements WebApplicationInitializer {
     public void onStartup(ServletContext servletContext) throws ServletException {
         AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
         ctx.register(WebAppConfig.class);
+//        ctx.register(SecurityConfiguration.class);
+        ctx.register(SecurityConfig.class);
+        servletContext.addListener(new ContextLoaderListener(ctx));
+
+//        servletContext.addListener(new ContextLoaderListener(ctx));
         ctx.setServletContext(servletContext);
         ctx.refresh();
 

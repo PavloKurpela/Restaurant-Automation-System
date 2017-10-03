@@ -30,8 +30,6 @@ public class MenuController {
     @Autowired
     private UserService userService;
 
-    User user = null;
-
     @RequestMapping("")
     public String menu(Model model) {
         return "menu";
@@ -105,8 +103,10 @@ public class MenuController {
         System.out.println("dishId = " + dishId + "  count: " + countDish);
         System.out.println(menuService.getDish(dishId));
 
+
+        User user = userService.getActiveUser();
         if (user == null) {
-            user = userService.initUser();
+            return Ajax.errorResponse("Ви не авторизовані");
         }
         if (user.getMyOrder() == null) {
             user.setMyOrder(new Order());

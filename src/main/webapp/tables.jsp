@@ -35,13 +35,17 @@
                     <img id="table-image" src="image/Zabava.jpg" class="img-responsive" alt="Responsive image">
                 </div>
 
+                <sec:authorize access="!isAuthenticated()">
+                    <h2 class="access-info">Для бронювання столика потрібно авторизуватись</h2>
+                </sec:authorize>
+
                 <div class="container-fluid">
                         <table class="table table-hover" cellspacing="0" width="100%">
                             <thead>
                             <tr>
                                 <th>Номер столика</th>
                                 <th>Максимальна кількість осіб</th>
-                                <th></th>
+                                <%--<th></th>--%>
                             </tr>
                             </thead>
 
@@ -50,9 +54,11 @@
                                     <tr>
                                         <th>${table.numberTable}</th>
                                         <th>${table.maxCountPerson}</th>
-                                        <th>
-                                            <button type="button" id="${table.id}" value="${table.id}" class="btn btn-success btn-table">Забронювати</button>
-                                        </th>
+                                        <sec:authorize access="isAuthenticated()">
+                                            <th>
+                                                <button type="button" id="${table.id}" value="${table.id}" class="btn btn-success btn-table">Забронювати</button>
+                                            </th>
+                                        </sec:authorize>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -62,69 +68,7 @@
             </div>
             <div class="col-lg-3 col-lg-pull-9">
 
-                <div class="panel panel-info">
-
-                    <div class="panel-heading">
-                        <div class="sidebar-header">
-                            <a href="/">Головна</a>
-                        </div>
-                        <div class="sidebar-header">
-                            <a href="/menu">Меню</a>
-                        </div>
-                        <div class="sidebar-header">
-                            <a href="/tables">Бронювання столиків</a>
-                        </div>
-                        <div class="sidebar-header">
-                            <a href="/orders">Мої замовлення</a>
-                        </div>
-                        <div class="sidebar-header">
-                            <a href="#">Контакти</a>
-                        </div>
-                        <div class="sidebar-header">
-                            <a href="/admin/dish">Адміністрування</a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="panel panel-info hidden-xs">
-                    <div class="panel-heading"> <div class="sidebar-header">Пошук</div> </div>
-                    <div class="panel-body">
-                        <form role="search">
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon">@</span>
-                                    <input type="search" class="form-control input-lg" placeholder="ваш запит">
-
-                                    <div class="input-group-btn">
-                                        <button class="btn btn-default btn-lg" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-
-                <div class="panel panel-info">
-                    <div class="panel-heading"> <div class="sidebar-header">Вхід</div> </div>
-                    <div class="panel-body">
-
-                        <form role="form">
-                            <div class="form-group">
-                                <input type="text" class="form-control input-lg" placeholder="Логін">
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control input-lg" placeholder="Пароль">
-                            </div>
-
-                            <button type="submit" class="btn btn-warning pull-right">Вхід</button>
-
-                        </form>
-
-                    </div>
-                </div>
+                <%@ include file="navigation.jsp"%>
 
             </div>
         </div>
@@ -133,20 +77,22 @@
 </div>
 
 
+
 <script>
 
+
     $('.btn-table').click(function () {
-        $.ajax({
-            type: "POST",
-            cache: false,
-            url: 'tables/add-table',
-            data: {
-                'tableId': $(this).val()
-            },
-            success: function () {
-                alert("Столик заброньовано!");
-            }
-        });
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: 'tables/add-table',
+                data: {
+                    'tableId': $(this).val()
+                },
+                success: function () {
+                    alert("Столик заброньовано!");
+                }
+            });
     });
 
 </script>

@@ -2,8 +2,10 @@ package com.mainacad.myproject.repository;
 
 import com.mainacad.myproject.entities.Dish;
 import com.mainacad.myproject.entities.Order;
+import com.mainacad.myproject.entities.User;
 import com.mainacad.myproject.entities.Waiter;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -61,5 +63,26 @@ public class DaoWaiterImpl implements DaoWaiter {
     @Override
     public void changeDish(Dish dish) {
         entityManager.merge(dish);
+    }
+
+    @Override
+    public void updateWaiter(Waiter waiter) {
+        entityManager.merge(waiter);
+    }
+
+    @Override
+    public Waiter getWaiterByLoginName(String login) {
+        String stringQuery = "SELECT w FROM Waiter w WHERE w.loginName = :loginName";
+
+        Query query = entityManager.createQuery(stringQuery, Waiter.class);
+        query.setParameter("loginName", login);
+
+        List<Waiter> waiters = (List<Waiter>)query.getResultList();
+
+        if (waiters.size() > 0) {
+            return waiters.get(0);
+        } else {
+            return null;
+        }
     }
 }

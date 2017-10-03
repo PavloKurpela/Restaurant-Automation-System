@@ -2,6 +2,7 @@ package com.mainacad.myproject.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.mainacad.myproject.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -53,6 +54,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/");
         registry.addResourceHandler("/admin/**").addResourceLocations("/");
+        registry.addResourceHandler("/waiter/**").addResourceLocations("/");
     }
 
     @Bean
@@ -63,6 +65,11 @@ public class WebAppConfig extends WebMvcConfigurerAdapter {
         resolver.setViewClass(JstlView.class);
         resolver.setOrder(1);
         return resolver;
+    }
+
+    @Bean
+    public UserDetailsService getUserDetailsService(){
+        return new UserDetailsServiceImpl();
     }
 
     @Bean

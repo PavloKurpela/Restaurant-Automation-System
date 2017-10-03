@@ -27,8 +27,6 @@ public class OrdersController {
     @Autowired
     private UserService userService;
 
-    User user = null;
-
     @RequestMapping("")
     public String orders(Model model) {
         return "orders";
@@ -37,8 +35,9 @@ public class OrdersController {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<?> allOrders(Model model, UriComponentsBuilder ucBuilder) {
 
+        User user = userService.getActiveUser();
         if (user == null) {
-            user = userService.initUser();
+            return new ResponseEntity<>(Ajax.errorResponse("Ви не авторизовані!"), HttpStatus.OK);
         }
         List<Order> res = orderService.orderList(user);
 
@@ -55,8 +54,10 @@ public class OrdersController {
     public @ResponseBody
     Map<String, Object> getOrder() {
 
+        User user = userService.getActiveUser();
+
         if (user == null) {
-            user = userService.initUser();
+            Ajax.errorResponse("Ви не авторизовані!");
         }
 
         if(user.getMyOrder() == null) {
@@ -69,9 +70,10 @@ public class OrdersController {
     public @ResponseBody
     Map<String, Object> orderNewAdd(Model model) {
 
-        if (user == null) {
-            user = userService.initUser();
+        User user = userService.getActiveUser();
 
+        if (user == null) {
+            Ajax.errorResponse("Ви не авторизовані!");
         }
         user.setMyOrder(new Order());
         return Ajax.emptyResponse();
@@ -81,8 +83,10 @@ public class OrdersController {
     public @ResponseBody
     Map<String, Object> orderAdd(Model model) {
 
+        User user = userService.getActiveUser();
+
         if (user == null) {
-            user = userService.initUser();
+            Ajax.errorResponse("Ви не авторизовані!");
         }
 
         if (user.getMyOrder() == null || user.getMyOrder().getOrderedDishes().size() == 0) {
@@ -107,7 +111,7 @@ public class OrdersController {
                                       Model model) {
 
         //int c = Integer.getInteger(countPerson);
-        user.getMyOrder().setCountPerson(countPerson);
+        userService.getActiveUser().getMyOrder().setCountPerson(countPerson);
 
         return Ajax.emptyResponse();
     }
@@ -120,8 +124,8 @@ public class OrdersController {
 
         orderService.setDateForOrder(startDate, endDate);
 
-        System.out.println(user.getMyOrder().getDateTimeFrom());
-        System.out.println(user.getMyOrder().getDateTimeBefore());
+        System.out.println(userService.getActiveUser().getMyOrder().getDateTimeFrom());
+        System.out.println(userService.getActiveUser().getMyOrder().getDateTimeBefore());
 
         return Ajax.emptyResponse();
     }

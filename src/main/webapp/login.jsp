@@ -33,18 +33,16 @@
                     </div>
                 </form>
 
-                <h1>Події і новини</h1>
+                <h1>Вхід у систему</h1>
                 <hr>
 
-                <div class="jumbotron" style="margin-top: 20px;">
-                    <h1>Головна</h1>
-                    <sec:authorize access="!isAuthenticated()">
-                        <p><a class="btn btn-lg btn-success" href="<c:url value="/login" />" role="button">Увійти</a></p>
-                    </sec:authorize>
-                    <sec:authorize access="isAuthenticated()">
-                        <p>Ваш логин: <sec:authentication property="principal.username" /></p>
-                        <p><a class="btn btn-lg btn-danger" href="<c:url value="/logout" />" role="button">Вийти</a></p>
-                    </sec:authorize>
+                <div class="container" style="width: 300px;">
+                    <c:url value="/j_spring_security_check" var="loginUrl" />
+                    <form action="${loginUrl}" method="post">
+                        <input type="text" class="form-control input-lg" name="j_username" placeholder="Login" required autofocus>
+                        <input type="password" class="form-control input-lg" name="j_password" placeholder="Password" required>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">Увійти</button>
+                    </form>
                 </div>
 
             </div>

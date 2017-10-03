@@ -95,4 +95,16 @@ public class User {
     public void addOrder(Order myOrder) {
         this.myOrders.add(myOrder);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", loginName='" + loginName + '\'' +
+                '}';
+    }
 }
+
+
